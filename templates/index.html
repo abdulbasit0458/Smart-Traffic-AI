@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ANPR Dashboard</title>
+
+    <script>
+        function searchPlate() {
+            let input = document.getElementById("search").value.toUpperCase();
+            let rows = document.querySelectorAll("table tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let plate = rows[i].cells[0].innerText;
+                rows[i].style.display = plate.includes(input) ? "" : "none";
+            }
+        }
+
+        // auto refresh every 5 sec
+        setInterval(() => {
+            location.reload();
+        }, 5000);
+    </script>
+
+</head>
+
+<body>
+
+<h1>🚦 ANPR SYSTEM DASHBOARD</h1>
+
+<img src="/video" width="800">
+
+<h2>Total Vehicles: {{ plates|length }}</h2>
+
+<input type="text" id="search" placeholder="Search Plate..." onkeyup="searchPlate()">
+
+<h2>Detected Plates</h2>
+
+<table border="1">
+    <tr>
+        <th>Plate</th>
+        <th>Time</th>
+    </tr>
+
+    {% for row in plates %}
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
